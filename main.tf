@@ -100,3 +100,7 @@ resource "aws_network_interface" "test" {
   subnet_id = aws_subnet.Kushi.id
 }
 
+resource "aws_s3_bucket" "file" {
+  bucket = "storage"
+
+}
