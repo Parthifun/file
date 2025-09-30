@@ -48,6 +48,26 @@ resource "aws_security_group" "security" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "tls_private_key" "KeyPair" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "my_key" {
+  key_name   = "terraform-key"
+  public_key = tls_private_key.KeyPair.public_key_openssh
+}
+
+resource "local_file" "private_key_file" {
+  content          = tls_private_key.KeyPair.private_key_pem
+  filename = pathexpand("~/.ssh/P1.pem")
+  file_permission  = "0600"
+}
+
+
+
+
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 }
