@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "TV" {
-  ami           = "ami-08982f1c5bf93d976"
+  ami           = "ami-0ca4d5db4872d0c28"
   instance_type = "t3.micro"
 
   tags = {
