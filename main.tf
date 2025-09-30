@@ -1,15 +1,25 @@
 provider "aws" {
   region = "us-east-1"
 }
-#SG
+
 resource "aws_instance" "TV" {
   ami           = "ami-08982f1c5bf93d976"
   instance_type = "t3.micro"
+  subnet_id = aws_subnet.Kushi.id
+  associate_public_ip_address = true
+  vpc_security_group_ids = [aws_security_group.security.id]
+  key_name = aws_key_pair.my_key.key_name
+
 
   tags = {
-    Name = "Channel123"
+    Name = "Channel"
   }
 }
+
+resource "aws_eip" "static_ip" {
+  instance = aws_instance.TV.id
+}
+#SG
 resource "aws_security_group" "security" {
   name        = "allow_ssh_http"
   description = "Allow SSH and HTTP inbound traffic"
